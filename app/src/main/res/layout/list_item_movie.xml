@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="3dp"
+        app:cardBackgroundColor="@color/colorAccent"
+        android:layout_marginVertical="6dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ImageView
+                android:id="@+id/ivPoster"
+                android:layout_width="wrap_content"
+                android:layout_height="182dp"
+                android:src="@drawable/test_poster"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:padding="8dp"/>
+
+        <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="204dp"
+                android:text="@string/test_title"
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="700"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/ivPoster"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="14dp"
+                android:layout_marginStart="6dp"/>
+
+        <TextView
+                android:id="@+id/tvCrew"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="204dp"
+                android:text="@string/test_crew"
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/colorBlack"
+                android:textSize="14sp"
+                android:layout_marginTop="14dp"
+                app:layout_constraintStart_toEndOf="@+id/ivPoster"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+                android:layout_marginStart="6dp"/>
+
+        <TextView
+                android:id="@+id/tvRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/test_rating"
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ivPoster"
+                android:layout_marginBottom="18dp"
+                android:layout_marginStart="6dp"/>
+
+        <TextView
+                android:id="@+id/tvGrowth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/test_growth"
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/colorGreen"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@id/tvNumber"
+                app:layout_constraintTop_toTopOf="@id/tvNumber"
+                app:layout_constraintStart_toEndOf="@id/tvNumber"
+                android:layout_marginStart="4dp"/>
+
+        <TextView
+                android:id="@+id/tvNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/test_number"
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="48dp"
+                android:layout_marginBottom="18dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
