@@ -3,6 +3,7 @@ package hi.dude.movieinfochecker
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_movie_list.*
+import kotlinx.coroutines.*
 
 class MovieListActivity : AppCompatActivity() {
 
@@ -11,7 +12,6 @@ class MovieListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_list)
-
         supportActionBar?.hide()
         setUpPager()
     }
@@ -25,8 +25,8 @@ class MovieListActivity : AppCompatActivity() {
         pullMovieList()
     }
 
-    private fun pullMovieList() = Thread {
-        val movies = App.connector.getMostPopularMovies()
-        runOnUiThread { vpAdapter.pages[0].movies = movies }
-    }.start()
+    private fun pullMovieList() = CoroutineScope(Dispatchers.Main).launch {
+        val movies = withContext(Dispatchers.IO) { App.connector.getMostPopularMovies() }
+        vpAdapter.pages[vpMovies.currentItem].movies = movies
+    }
 }

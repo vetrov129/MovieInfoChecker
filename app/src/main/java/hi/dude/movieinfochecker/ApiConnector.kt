@@ -21,7 +21,7 @@ class ApiConnector {
 
     private val gson = Gson()
 
-    private fun getJson(request: REQUEST, vararg params: Pair<String, String>): String {
+    private suspend fun getJson(request: REQUEST, vararg params: Pair<String, String>): String {
         var url = "$API_URL${request.text}$API_KEY"
         for (param in params) {
             url += "/" + param.first + "=" + param.second
@@ -30,7 +30,7 @@ class ApiConnector {
         return URL(url).readText()
     }
 
-    fun getMostPopularMovies(): ArrayList<Movie> {
+    suspend fun getMostPopularMovies(): ArrayList<Movie> {
         val json = getJson(REQUEST.MOST_POPULAR_MOVIES)
         return gson.fromJson(json, ListOfMovie::class.java).items ?: ArrayList()
     }
