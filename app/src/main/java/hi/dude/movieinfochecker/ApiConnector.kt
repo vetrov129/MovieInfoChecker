@@ -3,7 +3,9 @@ package hi.dude.movieinfochecker
 import android.util.Log
 import com.google.gson.Gson
 import hi.dude.movieinfochecker.models.ListOfMovie
+import hi.dude.movieinfochecker.models.ListOfResult
 import hi.dude.movieinfochecker.models.Movie
+import hi.dude.movieinfochecker.models.ResultItem
 import java.net.URL
 
 class ApiConnector {
@@ -15,16 +17,16 @@ class ApiConnector {
         enum class REQUEST(val text: String) {
             MOST_POPULAR_MOVIES("MostPopularMovies"),
             TOP_250_MOVIES("Top250Movies"),
-
+            SEARCH("Search")
         }
     }
 
     private val gson = Gson()
 
-    private suspend fun getJson(request: REQUEST, vararg params: Pair<String, String>): String {
+    private suspend fun getJson(request: REQUEST, vararg params: String): String {
         var url = "$API_URL${request.text}$API_KEY"
         for (param in params) {
-            url += "/" + param.first + "=" + param.second
+            url += "/$param"
         }
         Log.i("ApiConnector", "getJson: $url")
         return URL(url).readText()
@@ -38,5 +40,10 @@ class ApiConnector {
     suspend fun getTop250Movies(): ArrayList<Movie> {
         val json = getJson(REQUEST.TOP_250_MOVIES)
         return gson.fromJson(json, ListOfMovie::class.java).items ?: ArrayList()
+    }
+
+    suspend fun search(query: String): ArrayList<ResultItem> {
+        val json = getJson(REQUEST.SEARCH, query)
+        return gson.fromJson(json, ListOfResult::class.java).results ?: ArrayList()
     }
 }

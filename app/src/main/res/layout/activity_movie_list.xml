@@ -18,10 +18,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginVertical="18dp"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true"
+            android:animateLayoutChanges="true">
 
         <ImageButton
-                android:id="@+id/ibSearch"
+                android:id="@+id/ibFind"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_search"
@@ -35,7 +36,7 @@
 
         <EditText
                 android:id="@+id/edSearch"
-                android:layout_width="wrap_content"
+                android:layout_width="220dp"
                 android:layout_height="wrap_content"
                 android:background="@color/colorTransparent"
                 android:hint="@string/search"
@@ -104,6 +105,17 @@
             android:layout_height="match_parent"
             android:layout_below="@id/tabsContainer"
             android:background="@color/colorPrimary"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvResults"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tabsContainer"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:visibility="gone"
+            android:background="@color/colorPrimary"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"/>
 
 
 </RelativeLayout>

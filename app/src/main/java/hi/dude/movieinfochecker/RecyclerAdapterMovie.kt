@@ -50,7 +50,7 @@ class RecyclerAdapterMovie(movies: ArrayList<Movie>) :
     override fun getItemCount(): Int = movies.size
 
     suspend fun pullImages() = withContext(Dispatchers.IO) {
-        for (position in 0 until movies.size) async {
+        for (position in 0 until movies.size) launch {
             movies[position].pullImage()
             withContext(Dispatchers.Main) { notifyItemChanged(position) }
         }
