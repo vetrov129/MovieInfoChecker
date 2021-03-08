@@ -6,6 +6,7 @@
     <color name="colorBG">#E3E2DC</color>
 
     <color name="colorWhite">#fff</color>
+    <color name="colorTabNotSelected">#A3B3CD</color>
 
     <color name="colorBlack">#1A1A1A</color>
     <color name="colorGreen">#24B25D</color>

@@ -47,4 +47,8 @@ class Page(movies: ArrayList<Movie>, val searchPanel: View) {
     suspend fun pullImages() {
         recAdapter.pullImages()
     }
+
+    suspend fun pullDataIfNeed(getter: suspend () -> ArrayList<Movie>) {
+        recAdapter.pullDataIfNeed(getter)
+    }
 }

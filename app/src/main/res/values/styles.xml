@@ -20,7 +20,7 @@
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textFontWeight" tools:ignore="NewApi">700</item>
         <item name="android:lineHeight" tools:ignore="NewApi">24dp</item>
-        <item name="android:textColor">@color/colorGray</item>
+        <item name="android:textColor">@color/colorTabNotSelected</item>
     </style>
 
 </resources>

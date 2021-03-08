@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MovieInfoChecker</string>
     <string name="find">find</string>
-    <string name="search">search</string>
+    <string name="search">" Search"</string>
     <string name="popular">Popular</string>
     <string name="top_250">Top 250</string>
     <string name="test_title">Title of movie</string>

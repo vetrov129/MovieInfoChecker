@@ -2,6 +2,7 @@ package hi.dude.movieinfochecker.models
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import android.util.TypedValue
 import androidx.core.graphics.scale
 import com.google.gson.annotations.SerializedName
@@ -24,7 +25,7 @@ class Movie(
 ) {
     var imageBitmap: Bitmap? = null
 
-    suspend fun pullImage() = withContext(Dispatchers.IO){
+    suspend fun pullImage() {
         try {
             val connection = URL(imageUrl).openConnection()
             connection.doInput = true
@@ -32,7 +33,7 @@ class Movie(
             imageBitmap = BitmapFactory.decodeStream(connection.getInputStream()).scale(App.imageWidth, App.imageHeight)
 
         } catch (e: FileNotFoundException) {
-
+            Log.e("Movie", "pullImage: url $imageUrl")
         }
     }
 }

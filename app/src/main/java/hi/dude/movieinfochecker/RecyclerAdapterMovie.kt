@@ -5,7 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import hi.dude.movieinfochecker.models.Movie
+import khttp.async
 import kotlinx.android.synthetic.main.list_item_movie.view.*
+import kotlinx.coroutines.*
 
 class RecyclerAdapterMovie(movies: ArrayList<Movie>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -47,11 +49,19 @@ class RecyclerAdapterMovie(movies: ArrayList<Movie>) :
 
     override fun getItemCount(): Int = movies.size
 
-    suspend fun pullImages() {
-        for (position in 0 until movies.size) {
+    suspend fun pullImages() = withContext(Dispatchers.IO) {
+        for (position in 0 until movies.size) async {
             movies[position].pullImage()
-            notifyItemChanged(position)
+            withContext(Dispatchers.Main) { notifyItemChanged(position) }
         }
+    }
+
+    suspend fun pullDataIfNeed(getter: suspend () -> ArrayList<Movie>) {
+        if (movies.size != 0) return
+        var newMovies: ArrayList<Movie>
+        withContext(Dispatchers.IO) { newMovies = getter() }
+        withContext(Dispatchers.Main) { movies = newMovies }
+        pullImages()
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

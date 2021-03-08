@@ -34,4 +34,9 @@ class ApiConnector {
         val json = getJson(REQUEST.MOST_POPULAR_MOVIES)
         return gson.fromJson(json, ListOfMovie::class.java).items ?: ArrayList()
     }
+
+    suspend fun getTop250Movies(): ArrayList<Movie> {
+        val json = getJson(REQUEST.TOP_250_MOVIES)
+        return gson.fromJson(json, ListOfMovie::class.java).items ?: ArrayList()
+    }
 }
