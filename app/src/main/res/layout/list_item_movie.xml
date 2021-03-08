@@ -15,8 +15,8 @@
 
         <ImageView
                 android:id="@+id/ivPoster"
-                android:layout_width="wrap_content"
-                android:layout_height="182dp"
+                android:layout_width="128dp"
+                android:layout_height="176dp"
                 android:src="@drawable/test_poster"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -34,7 +34,7 @@
                 android:textSize="18sp"
                 app:layout_constraintStart_toEndOf="@+id/ivPoster"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginStart="6dp"/>
 
         <TextView
@@ -47,10 +47,25 @@
                 android:textFontWeight="600"
                 android:textColor="@color/colorBlack"
                 android:textSize="14sp"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="10dp"
                 app:layout_constraintStart_toEndOf="@+id/ivPoster"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
                 android:layout_marginStart="6dp"/>
+
+        <TextView
+                android:id="@+id/tvYear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/test_year"
+                app:layout_constraintTop_toBottomOf="@+id/tvCrew"
+                app:layout_constraintStart_toEndOf="@+id/ivPoster"
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/colorBlack"
+                android:textSize="14sp"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="6dp"/>
+
 
         <TextView
                 android:id="@+id/tvRating"
@@ -63,7 +78,7 @@
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ivPoster"
-                android:layout_marginBottom="18dp"
+                android:layout_marginBottom="12dp"
                 android:layout_marginStart="6dp"/>
 
         <TextView
@@ -92,7 +107,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="48dp"
-                android:layout_marginBottom="18dp"/>
+                android:layout_marginBottom="12dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

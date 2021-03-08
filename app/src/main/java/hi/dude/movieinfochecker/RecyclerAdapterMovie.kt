@@ -25,20 +25,34 @@ class RecyclerAdapterMovie(movies: ArrayList<Movie>) :
         val movie = movies[position]
         val view = holder.itemView
 
-//        view.ivPoster.setImageBitmap(movie.imageBitmap)
+        if (movie.imageBitmap == null)
+            view.ivPoster.setImageResource(R.drawable.empty)
+        else
+            view.ivPoster.setImageBitmap(movie.imageBitmap)
         view.tvTitle.text = movie.title ?: ""
         view.tvCrew.text = movie.crew ?: ""
+        view.tvYear.text = movie.year
         view.tvGrowth.text = movie.growth ?: ""
         view.tvRating.text = movie.rating.toString() ?: ""
         view.tvNumber.text = movie.rank.toString() ?: ""
 
-//        if (position % 2 == 0) view.setBackgroundResource(R.color.colorBG)
-//        else view.setBackgroundResource(R.color.colorAccent)
-
-        // TODO: 07.03.2021 менять цвет и стрелку в зависимости от роста
+        if (movie.growth != null) {
+            when {
+                movie.growth == "0" -> view.tvGrowth.text = ""
+                movie.growth[0] == '-' -> view.tvGrowth.setTextColor(App.resources.getColor(R.color.colorRed))
+                else -> view.tvGrowth.setTextColor(App.resources.getColor(R.color.colorGreen))
+            }
+        }
     }
 
     override fun getItemCount(): Int = movies.size
+
+    suspend fun pullImages() {
+        for (position in 0 until movies.size) {
+            movies[position].pullImage()
+            notifyItemChanged(position)
+        }
+    }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

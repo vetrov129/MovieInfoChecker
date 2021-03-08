@@ -43,4 +43,8 @@ class Page(movies: ArrayList<Movie>, val searchPanel: View) {
             }
         })
     }
+
+    suspend fun pullImages() {
+        recAdapter.pullImages()
+    }
 }

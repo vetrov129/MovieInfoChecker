@@ -1,7 +1,15 @@
 package hi.dude.movieinfochecker.models
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.TypedValue
+import androidx.core.graphics.scale
 import com.google.gson.annotations.SerializedName
+import hi.dude.movieinfochecker.App
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.io.FileNotFoundException
+import java.net.URL
 
 class Movie(
     @SerializedName("id") val id: String?,
@@ -14,5 +22,17 @@ class Movie(
     @SerializedName("imDbRating") val rating: String?,
     @SerializedName("imDbRatingCount") val ratingCount: String?,
 ) {
-    val imageBitmap: Bitmap = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888)
+    var imageBitmap: Bitmap? = null
+
+    suspend fun pullImage() = withContext(Dispatchers.IO){
+        try {
+            val connection = URL(imageUrl).openConnection()
+            connection.doInput = true
+            connection.connect()
+            imageBitmap = BitmapFactory.decodeStream(connection.getInputStream()).scale(App.imageWidth, App.imageHeight)
+
+        } catch (e: FileNotFoundException) {
+
+        }
+    }
 }
