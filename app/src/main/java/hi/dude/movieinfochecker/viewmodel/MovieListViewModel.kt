@@ -1,12 +1,13 @@
 package hi.dude.movieinfochecker.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import hi.dude.movieinfochecker.model.MovieRepository
 import hi.dude.movieinfochecker.model.entities.Movie
+import hi.dude.movieinfochecker.model.entities.ResultItem
 import kotlinx.coroutines.*
-import timber.log.Timber
 
 class MovieListViewModel(app: Application) : AndroidViewModel(app), CoroutineScope {
 
@@ -15,35 +16,41 @@ class MovieListViewModel(app: Application) : AndroidViewModel(app), CoroutineSco
 
     private val repository: MovieRepository = MovieRepository()
 
+    private var searchJob: Job? = null
+
     val popularMovies: MutableLiveData<ArrayList<Movie>> = repository.popularMovies
     val topMovies: MutableLiveData<ArrayList<Movie>> = repository.topMovies
-
-    var posterWidth = 0
-    var posterHeight = 0
+    val searchResult: MutableLiveData<ArrayList<ResultItem>> = repository.searchResult
 
     fun pullPopular() {
         try {
             if (popularMovies.value?.size != 0) return
             launch { repository.pullPopular(coroutineContext) }
-                .invokeOnCompletion { launch { repository.pullPosters(popularMovies, posterWidth, posterHeight) } }
         } catch (e: Throwable) {
-            Timber.e(e)
-            println("pullPopular ${e.message}")
             e.printStackTrace()
         }
-
     }
 
     fun pullTop() {
         try {
             if (topMovies.value?.size != 0) return
             launch { repository.pullTop(coroutineContext) }
-                .invokeOnCompletion { launch { repository.pullPosters(topMovies, posterWidth, posterHeight) } }
         } catch (e: Throwable) {
-            Timber.e(e)
-            println("pullTop ${e.message}")
             e.printStackTrace()
         }
+    }
+
+    fun search(query: String) {
+        try {
+            searchJob = launch { repository.search(query, coroutineContext) }
+        } catch (e: Throwable) {
+            e.printStackTrace()
+        }
+
+    }
+
+    fun clearResult() {
+        repository.clearResult()
     }
 
     fun cancel() {

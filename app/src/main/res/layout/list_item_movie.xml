@@ -15,8 +15,8 @@
 
         <ImageView
                 android:id="@+id/ivPoster"
-                android:layout_width="128dp"
-                android:layout_height="176dp"
+                android:layout_width="@dimen/poster_width"
+                android:layout_height="@dimen/poster_height"
                 android:src="@drawable/test_poster"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

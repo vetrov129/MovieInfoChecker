@@ -16,6 +16,7 @@ import androidx.viewpager2.widget.ViewPager2
 import hi.dude.movieinfochecker.viewmodel.MovieListViewModel
 import hi.dude.movieinfochecker.R
 import kotlinx.android.synthetic.main.activity_movie_list.*
+import kotlinx.coroutines.Dispatchers
 
 class MovieListActivity : AppCompatActivity() {
 
@@ -36,11 +37,6 @@ class MovieListActivity : AppCompatActivity() {
         currentTab = popularMenuButton
 
         viewModel = MovieListViewModel(application)
-
-        viewModel.posterWidth =
-            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 128f, resources.displayMetrics).toInt()
-        viewModel.posterHeight =
-            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 176f, resources.displayMetrics).toInt()
 
         setUpTabs()
         setUpPager()
@@ -78,7 +74,6 @@ class MovieListActivity : AppCompatActivity() {
                 } catch (e: UninitializedPropertyAccessException) {
                     Log.e("ListActivity", "onPageSelected: UninitializedPropertyAccessException ")
                 }
-
             }
         })
     }
@@ -88,14 +83,14 @@ class MovieListActivity : AppCompatActivity() {
             try {
                 vpAdapter.pages[0].movies = viewModel.popularMovies.value ?: ArrayList()
             } catch (e: Exception) {
-                Log.e("Activity", "setUpPager: subscribe popular lambda", e)
+                Log.e("Activity", "subscribeLists: subscribe popular lambda", e)
             }
         }
         viewModel.topMovies.observe(this) {
             try {
                 vpAdapter.pages[1].movies = viewModel.topMovies.value ?: ArrayList()
             } catch (e: Exception) {
-                Log.e("Activity", "setUpPager: subscribe top lambda", e)
+                Log.e("Activity", "subscribeLists: subscribe top lambda", e)
             }
         }
     }
@@ -129,7 +124,7 @@ class MovieListActivity : AppCompatActivity() {
     private fun setUpSearchPanel() {
         ibBackSearch.visibility = View.GONE
         ibBackSearch.setOnClickListener { searchBackClicked() }
-//        ibFind.setOnClickListener { findClicked() }
+        ibFind.setOnClickListener { findClicked() }
 
         edSearch.setOnFocusChangeListener { _, b -> editSearchFocusChanged(b) }
 
@@ -149,8 +144,15 @@ class MovieListActivity : AppCompatActivity() {
     }
 
     private fun setUpResultPanel() {
-        rvResultsAdapter = RecyclerAdapterResults(ArrayList())
+        rvResultsAdapter = RecyclerAdapterResults(viewModel.searchResult.value ?: ArrayList())
         rvResults.adapter = rvResultsAdapter
+        viewModel.searchResult.observe(this) {
+            try {
+                rvResultsAdapter.results = viewModel.searchResult.value ?: ArrayList()
+            } catch (e: Exception) {
+                Log.e("Activity", "subscribeLists: subscribe results lambda", e)
+            }
+        }
     }
 
     private fun editSearchFocusChanged(hasFocus: Boolean) {
@@ -176,6 +178,7 @@ class MovieListActivity : AppCompatActivity() {
 
         edSearch.text = "".toEditable()
         edSearch.clearFocus()
+        viewModel.clearResult()
 
         rvResults.visibility = View.GONE
         ibBackSearch.visibility = View.GONE
@@ -186,14 +189,11 @@ class MovieListActivity : AppCompatActivity() {
     }
 
     private fun findClicked() {
+        viewModel.search(edSearch.text.toString())
+
         (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
             .hideSoftInputFromWindow(ibBackSearch.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
         rvResults.visibility = View.VISIBLE
-
-//        var results: ArrayList<ResultItem>
-//        withContext(Dispatchers.IO) { results = App.connector.search(edSearch.text.toString()) }
-//        rvResultsAdapter.results = results
-//        rvResultsAdapter.pullImages()
     }
 
     private fun String.toEditable(): Editable? = Editable.Factory.getInstance().newEditable(this)

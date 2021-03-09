@@ -17,14 +17,4 @@ class Movie(
     @SerializedName("imDbRatingCount") val ratingCount: String?,
 ) {
     var imageBitmap: Bitmap? = null
-
-    private var onChange: () -> Unit = {}
-
-    fun setOnImageChangeListener(onChange: () -> Unit) {
-        this.onChange = onChange
-    }
-
-    suspend fun execOnChange(coroutineContext: CoroutineContext) {
-        withContext(coroutineContext) { onChange() }
-    }
 }
