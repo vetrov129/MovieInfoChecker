@@ -1,4 +1,4 @@
-package hi.dude.movieinfochecker.models
+package hi.dude.movieinfochecker.model.entities
 
 import com.google.gson.annotations.SerializedName
 

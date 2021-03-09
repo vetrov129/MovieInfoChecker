@@ -1,15 +1,15 @@
-package hi.dude.movieinfochecker
+package hi.dude.movieinfochecker.view
 
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import hi.dude.movieinfochecker.models.Movie
-import khttp.async
+import hi.dude.movieinfochecker.R
+import hi.dude.movieinfochecker.model.entities.Movie
 import kotlinx.android.synthetic.main.list_item_movie.view.*
-import kotlinx.coroutines.*
 
-class RecyclerAdapterMovie(movies: ArrayList<Movie>) :
+class RecyclerAdapterMovie(movies: ArrayList<Movie>, private val resources: Resources) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var movies: ArrayList<Movie> = movies
@@ -31,6 +31,9 @@ class RecyclerAdapterMovie(movies: ArrayList<Movie>) :
             view.ivPoster.setImageResource(R.drawable.empty)
         else
             view.ivPoster.setImageBitmap(movie.imageBitmap)
+
+        movie.setOnImageChangeListener { notifyItemChanged(position) }
+
         view.tvTitle.text = movie.title ?: ""
         view.tvCrew.text = movie.crew ?: ""
         view.tvYear.text = movie.year
@@ -41,28 +44,13 @@ class RecyclerAdapterMovie(movies: ArrayList<Movie>) :
         if (movie.growth != null) {
             when {
                 movie.growth == "0" -> view.tvGrowth.text = ""
-                movie.growth[0] == '-' -> view.tvGrowth.setTextColor(App.resources.getColor(R.color.colorRed))
-                else -> view.tvGrowth.setTextColor(App.resources.getColor(R.color.colorGreen))
+                movie.growth[0] == '-' -> view.tvGrowth.setTextColor(resources.getColor(R.color.colorRed))
+                else -> view.tvGrowth.setTextColor(resources.getColor(R.color.colorGreen))
             }
         }
     }
 
     override fun getItemCount(): Int = movies.size
-
-    suspend fun pullImages() = withContext(Dispatchers.IO) {
-        for (position in 0 until movies.size) launch {
-            movies[position].pullImage()
-            withContext(Dispatchers.Main) { notifyItemChanged(position) }
-        }
-    }
-
-    suspend fun pullDataIfNeed(getter: suspend () -> ArrayList<Movie>) {
-        if (movies.size != 0) return
-        var newMovies: ArrayList<Movie>
-        withContext(Dispatchers.IO) { newMovies = getter() }
-        withContext(Dispatchers.Main) { movies = newMovies }
-        pullImages()
-    }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

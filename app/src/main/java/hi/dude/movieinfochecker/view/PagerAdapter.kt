@@ -1,9 +1,10 @@
-package hi.dude.movieinfochecker
+package hi.dude.movieinfochecker.view
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import hi.dude.movieinfochecker.R
 
 class PagerAdapter(val pages: ArrayList<Page>) :
     RecyclerView.Adapter<PagerAdapter.PagerVH>() {

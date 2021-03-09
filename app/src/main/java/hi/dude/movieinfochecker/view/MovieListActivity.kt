@@ -1,9 +1,10 @@
-package hi.dude.movieinfochecker
+package hi.dude.movieinfochecker.view
 
 import android.animation.AnimatorInflater
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -12,32 +13,34 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.viewpager2.widget.ViewPager2
-import hi.dude.movieinfochecker.models.Movie
-import hi.dude.movieinfochecker.models.ResultItem
+import hi.dude.movieinfochecker.viewmodel.MovieListViewModel
+import hi.dude.movieinfochecker.R
 import kotlinx.android.synthetic.main.activity_movie_list.*
-import kotlinx.coroutines.*
 
-class MovieListActivity : AppCompatActivity(), CoroutineScope {
+class MovieListActivity : AppCompatActivity() {
+
+    private lateinit var popularPage: Page
+    private lateinit var topPage: Page
 
     private lateinit var vpAdapter: PagerAdapter
     private lateinit var rvResultsAdapter: RecyclerAdapterResults
     private lateinit var currentTab: TextView
 
-    private val job = SupervisorJob()
-    override val coroutineContext = Dispatchers.Main + job
+    private lateinit var viewModel: MovieListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_list)
         supportActionBar?.hide()
 
-        App.imageWidth =
-            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 128f, resources.displayMetrics).toInt()
-        App.imageHeight =
-            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 176f, resources.displayMetrics).toInt()
-        App.resources = resources
-
         currentTab = popularMenuButton
+
+        viewModel = MovieListViewModel(application)
+
+        viewModel.posterWidth =
+            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 128f, resources.displayMetrics).toInt()
+        viewModel.posterHeight =
+            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 176f, resources.displayMetrics).toInt()
 
         setUpTabs()
         setUpPager()
@@ -47,27 +50,30 @@ class MovieListActivity : AppCompatActivity(), CoroutineScope {
 
     override fun onDestroy() {
         super.onDestroy()
-        job.cancel()
+        viewModel.cancel()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        super.onSaveInstanceState(outState, outPersistentState)
     }
 
     private fun setUpPager() {
-        val popular = Page(ArrayList(), searchContainer)
-        val top = Page(ArrayList(), searchContainer)
+        popularPage = Page(viewModel.popularMovies.value!!, searchContainer, resources)
+        topPage = Page(viewModel.topMovies.value!!, searchContainer, resources)
 
-        vpAdapter = PagerAdapter(arrayListOf(popular, top))
+        vpAdapter = PagerAdapter(arrayListOf(popularPage, topPage))
         vpMovies.adapter = vpAdapter
+
+        subscribeLists()
 
         vpMovies.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
 
                 try {
-                    var getter: suspend () -> ArrayList<Movie> = { App.connector.getMostPopularMovies() }
-                    if (vpMovies.currentItem == 1) getter = { App.connector.getTop250Movies() }
+                    if (vpMovies.currentItem == 0) viewModel.pullPopular()
+                    else viewModel.pullTop()
 
-                    launch {
-                        vpAdapter.pages[vpMovies.currentItem].pullDataIfNeed(getter)
-                    }
                     changeTabsSize(vpMovies.currentItem)
                 } catch (e: UninitializedPropertyAccessException) {
                     Log.e("ListActivity", "onPageSelected: UninitializedPropertyAccessException ")
@@ -75,8 +81,23 @@ class MovieListActivity : AppCompatActivity(), CoroutineScope {
 
             }
         })
+    }
 
-        pullMovieList()
+    private fun subscribeLists() {
+        viewModel.popularMovies.observe(this) {
+            try {
+                vpAdapter.pages[0].movies = viewModel.popularMovies.value ?: ArrayList()
+            } catch (e: Exception) {
+                Log.e("Activity", "setUpPager: subscribe popular lambda", e)
+            }
+        }
+        viewModel.topMovies.observe(this) {
+            try {
+                vpAdapter.pages[1].movies = viewModel.topMovies.value ?: ArrayList()
+            } catch (e: Exception) {
+                Log.e("Activity", "setUpPager: subscribe top lambda", e)
+            }
+        }
     }
 
     private fun changeTabsSize(currentItem: Int) {
@@ -105,18 +126,10 @@ class MovieListActivity : AppCompatActivity(), CoroutineScope {
         topMenuButton.setOnClickListener { vpMovies.currentItem = 1 }
     }
 
-    private fun pullMovieList() = launch {
-        val movies = withContext(Dispatchers.IO) { App.connector.getMostPopularMovies() }
-        vpAdapter.pages[vpMovies.currentItem].apply {
-            this.movies = movies
-            pullImages()
-        }
-    }
-
     private fun setUpSearchPanel() {
         ibBackSearch.visibility = View.GONE
         ibBackSearch.setOnClickListener { searchBackClicked() }
-        ibFind.setOnClickListener { findClicked() }
+//        ibFind.setOnClickListener { findClicked() }
 
         edSearch.setOnFocusChangeListener { _, b -> editSearchFocusChanged(b) }
 
@@ -172,15 +185,15 @@ class MovieListActivity : AppCompatActivity(), CoroutineScope {
         vpMovies.visibility = View.VISIBLE
     }
 
-    private fun findClicked() = launch {
+    private fun findClicked() {
         (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
             .hideSoftInputFromWindow(ibBackSearch.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
         rvResults.visibility = View.VISIBLE
 
-        var results: ArrayList<ResultItem>
-        withContext(Dispatchers.IO) { results = App.connector.search(edSearch.text.toString()) }
-        rvResultsAdapter.results = results
-        rvResultsAdapter.pullImages()
+//        var results: ArrayList<ResultItem>
+//        withContext(Dispatchers.IO) { results = App.connector.search(edSearch.text.toString()) }
+//        rvResultsAdapter.results = results
+//        rvResultsAdapter.pullImages()
     }
 
     private fun String.toEditable(): Editable? = Editable.Factory.getInstance().newEditable(this)

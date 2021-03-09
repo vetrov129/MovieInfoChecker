@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MovieListActivity"
+        tools:context=".view.MovieListActivity"
         android:background="@color/colorPrimaryDark"
         android:animateLayoutChanges="true">
 
@@ -28,9 +28,10 @@
                 android:src="@drawable/ic_search"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="20dp"
-                android:layout_marginEnd="13dp"
+                android:layout_marginEnd="20dp"
+                android:scaleType="center"
                 android:background="@color/colorTransparent"
-                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:padding="4dp"/>
 
@@ -55,14 +56,13 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_back"
+                android:padding="4dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:scaleType="center"
+                android:layout_marginEnd="13dp"
                 android:background="@color/colorTransparent"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:padding="4dp"/>
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"/>
     </RelativeLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

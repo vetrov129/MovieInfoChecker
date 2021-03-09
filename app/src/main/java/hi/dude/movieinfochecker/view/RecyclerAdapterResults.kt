@@ -1,15 +1,12 @@
-package hi.dude.movieinfochecker
+package hi.dude.movieinfochecker.view
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import hi.dude.movieinfochecker.models.ResultItem
+import hi.dude.movieinfochecker.R
+import hi.dude.movieinfochecker.model.entities.ResultItem
 import kotlinx.android.synthetic.main.list_item_result.view.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class RecyclerAdapterResults(results: ArrayList<ResultItem>):
     RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
@@ -40,12 +37,12 @@ class RecyclerAdapterResults(results: ArrayList<ResultItem>):
 
     override fun getItemCount(): Int = results.size
 
-    suspend fun pullImages() = withContext(Dispatchers.IO) {
-        for (position in 0 until results.size) launch {
-            results[position].pullImage()
-            withContext(Dispatchers.Main) { notifyItemChanged(position) }
-        }
-    }
+//    suspend fun pullImages() = withContext(Dispatchers.IO) {
+//        for (position in 0 until results.size) launch {
+//            results[position].pullImage()
+//            withContext(Dispatchers.Main) { notifyItemChanged(position) }
+//        }
+//    }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }
