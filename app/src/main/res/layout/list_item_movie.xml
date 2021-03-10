@@ -57,29 +57,40 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/test_year"
-                app:layout_constraintTop_toBottomOf="@+id/tvCrew"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ivPoster"
                 android:fontFamily="@font/montserrat"
                 android:textFontWeight="600"
                 android:textColor="@color/colorBlack"
                 android:textSize="14sp"
-                android:layout_marginTop="4dp"
-                android:layout_marginStart="6dp"/>
-
-
-        <TextView
-                android:id="@+id/tvRating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/test_rating"
-                android:fontFamily="@font/montserrat"
-                android:textFontWeight="600"
-                android:textColor="@color/colorBlack"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/ivPoster"
                 android:layout_marginBottom="12dp"
                 android:layout_marginStart="6dp"/>
+
+
+        <androidx.cardview.widget.CardView
+                android:id="@+id/cardRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="@color/colorGreen"
+                app:layout_constraintEnd_toEndOf="@+id/ivPoster"
+                app:layout_constraintTop_toTopOf="@+id/ivPoster"
+                android:layout_margin="14dp"
+                app:cardElevation="0dp">
+
+            <TextView
+                    android:id="@+id/tvRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/test_rating"
+                    android:fontFamily="@font/montserrat"
+                    android:textFontWeight="600"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="12sp"
+                    android:layout_margin="4dp"/>
+
+        </androidx.cardview.widget.CardView>
+
 
         <TextView
                 android:id="@+id/tvGrowth"

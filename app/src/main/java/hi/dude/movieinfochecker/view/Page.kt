@@ -1,15 +1,16 @@
 package hi.dude.movieinfochecker.view
 
+import android.content.Context
 import android.content.res.Resources
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import hi.dude.movieinfochecker.model.entities.Movie
 
-class Page(movies: ArrayList<Movie>, val searchPanel: View, resources: Resources) {
+class Page(movies: ArrayList<Movie>, val searchPanel: View, resources: Resources, context: Context) {
 
     private var readyToHide = true
 
-    private val recAdapter: RecyclerAdapterMovie = RecyclerAdapterMovie(movies, resources)
+    private val recAdapter: RecyclerAdapterMovie = RecyclerAdapterMovie(movies, resources, context)
 
     var movies: ArrayList<Movie> = movies
         set(value) {

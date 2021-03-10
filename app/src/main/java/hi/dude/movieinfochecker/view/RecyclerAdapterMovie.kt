@@ -1,5 +1,7 @@
 package hi.dude.movieinfochecker.view
 
+import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,7 +15,7 @@ import kotlinx.android.synthetic.main.list_item_movie.view.*
 import kotlinx.coroutines.*
 import kotlin.coroutines.coroutineContext
 
-class RecyclerAdapterMovie(movies: ArrayList<Movie>, private val resources: Resources) :
+class RecyclerAdapterMovie(movies: ArrayList<Movie>, private val resources: Resources, val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var movies: ArrayList<Movie> = movies
@@ -51,6 +53,26 @@ class RecyclerAdapterMovie(movies: ArrayList<Movie>, private val resources: Reso
                 else -> view.tvGrowth.setTextColor(resources.getColor(R.color.colorGreen))
             }
         }
+
+        if (movie.rating != null) {
+            if (movie.rating == "") view.cardRating.visibility = View.GONE
+            else when {
+                movie.rating.toDouble() >= 6.5 ->
+                    view.cardRating.setCardBackgroundColor(resources.getColor(R.color.colorGreen))
+                movie.rating.toDouble() < 6.5 && movie.rating.toDouble() >= 4.5 ->
+                    view.cardRating.setCardBackgroundColor(resources.getColor(R.color.colorGrayRating))
+                movie.rating.toDouble() < 4.5 ->
+                    view.cardRating.setCardBackgroundColor(resources.getColor(R.color.colorRed))
+            }
+        }
+
+        view.setOnClickListener { movieClicked(position) }
+    }
+
+    private fun movieClicked(position: Int) {
+        val intent = Intent(context, MovieCardActivity::class.java)
+        intent.putExtra("id", movies[position].id)
+        context.startActivity(intent)
     }
 
     fun pullImages() {

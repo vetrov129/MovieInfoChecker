@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="215dp"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginBottom="12dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorBGActor">
+
+        <ImageView
+                android:id="@+id/ivActorPhoto"
+                android:layout_width="@dimen/actor_photo_width"
+                android:layout_height="@dimen/actor_photo_height"
+                android:src="@color/colorAccent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_margin="12dp"/>
+
+        <TextView
+                android:id="@+id/tvActorName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/test_actor_name"
+                android:textColor="@color/colorWhite"
+                android:fontFamily="@font/montserrat"
+                android:textSize="12sp"
+                app:layout_constraintTop_toBottomOf="@+id/ivActorPhoto"
+                app:layout_constraintEnd_toEndOf="@+id/ivActorPhoto"
+                app:layout_constraintStart_toStartOf="@+id/ivActorPhoto"/>
+
+        <TextView
+                android:id="@+id/tvRole"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/test_role"
+                app:layout_constraintEnd_toEndOf="@+id/ivActorPhoto"
+                app:layout_constraintStart_toStartOf="@+id/ivActorPhoto"
+                app:layout_constraintTop_toBottomOf="@+id/tvActorName"
+                android:textColor="@color/colorWhite"
+                android:fontFamily="@font/montserrat"
+                android:textSize="12sp"
+                android:paddingBottom="16dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

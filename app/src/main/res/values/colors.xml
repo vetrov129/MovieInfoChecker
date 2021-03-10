@@ -9,9 +9,14 @@
     <color name="colorTabNotSelected">#A3B3CD</color>
 
     <color name="colorBlack">#1A1A1A</color>
-    <color name="colorGreen">#24B25D</color>
-    <color name="colorRed">#B22424</color>
+    <color name="colorGreen">#39B36A</color>
+    <color name="colorRed">#C33939</color>
     <color name="colorGray">#BABABA</color>
+
+    <color name="colorGrayRating">#7A7A7A</color>
+
+    <color name="colorBGCard">#334885</color>
+    <color name="colorBGActor">#43599C</color>
 
     <color name="colorTransparent">#00000000</color>
 </resources>

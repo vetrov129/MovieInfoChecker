@@ -36,7 +36,7 @@ class MovieListActivity : AppCompatActivity() {
 
         currentTab = popularMenuButton
 
-        viewModel = MovieListViewModel(application)
+        viewModel = MovieListViewModel.getInstance(application)
 
         setUpTabs()
         setUpPager()
@@ -54,8 +54,8 @@ class MovieListActivity : AppCompatActivity() {
     }
 
     private fun setUpPager() {
-        popularPage = Page(viewModel.popularMovies.value!!, searchContainer, resources)
-        topPage = Page(viewModel.topMovies.value!!, searchContainer, resources)
+        popularPage = Page(viewModel.popularMovies.value!!, searchContainer, resources, this)
+        topPage = Page(viewModel.topMovies.value!!, searchContainer, resources, this)
 
         vpAdapter = PagerAdapter(arrayListOf(popularPage, topPage))
         vpMovies.adapter = vpAdapter

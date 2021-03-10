@@ -3,13 +3,25 @@ package hi.dude.movieinfochecker.viewmodel
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import hi.dude.movieinfochecker.model.MovieRepository
 import hi.dude.movieinfochecker.model.entities.Movie
+import hi.dude.movieinfochecker.model.entities.MovieInfo
 import hi.dude.movieinfochecker.model.entities.ResultItem
 import kotlinx.coroutines.*
 
-class MovieListViewModel(app: Application) : AndroidViewModel(app), CoroutineScope {
+class MovieListViewModel private constructor(app: Application) : AndroidViewModel(app), CoroutineScope {
+
+    companion object {
+        private var viewModel: MovieListViewModel? = null
+
+        fun getInstance(app: Application): MovieListViewModel {
+            if (viewModel == null)
+                viewModel = MovieListViewModel(app)
+            return viewModel!!
+        }
+    }
 
     private val job = SupervisorJob()
     override val coroutineContext = Dispatchers.Main + job
@@ -18,9 +30,11 @@ class MovieListViewModel(app: Application) : AndroidViewModel(app), CoroutineSco
 
     private var searchJob: Job? = null
 
-    val popularMovies: MutableLiveData<ArrayList<Movie>> = repository.popularMovies
-    val topMovies: MutableLiveData<ArrayList<Movie>> = repository.topMovies
-    val searchResult: MutableLiveData<ArrayList<ResultItem>> = repository.searchResult
+    val popularMovies: LiveData<ArrayList<Movie>> = repository.popularMovies
+    val topMovies: LiveData<ArrayList<Movie>> = repository.topMovies
+    val searchResult: LiveData<ArrayList<ResultItem>> = repository.searchResult
+
+    val currentMovie: LiveData<MovieInfo> = repository.currentMovie
 
     fun pullPopular() {
         try {
@@ -46,11 +60,24 @@ class MovieListViewModel(app: Application) : AndroidViewModel(app), CoroutineSco
         } catch (e: Throwable) {
             e.printStackTrace()
         }
+    }
 
+    fun pullMovieInfo(id: String){
+        try {
+            launch {
+                repository.pullMovieInfo(id)
+            }
+        } catch (e: Throwable) {
+            e.printStackTrace()
+        }
     }
 
     fun clearResult() {
         repository.clearResult()
+    }
+
+    fun clearCurrentMovie() {
+        repository.clearCurrentMovie()
     }
 
     fun cancel() {
