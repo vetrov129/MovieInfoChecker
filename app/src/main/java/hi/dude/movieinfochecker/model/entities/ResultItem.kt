@@ -8,9 +8,9 @@ import kotlin.coroutines.CoroutineContext
 class ResultItem(
     @SerializedName("id") val id: String?,
     @SerializedName("resultType") val resultType: String?,
-    @SerializedName("image") val imageUrl: String?,
+    @SerializedName("image") override val imageUrl: String?,
     @SerializedName("title") val title: String?,
     @SerializedName("description") val description: String?,
-) {
-    var imageBitmap: Bitmap? = null
+): WithPoster {
+    override var imageBitmap: Bitmap? = null
 }

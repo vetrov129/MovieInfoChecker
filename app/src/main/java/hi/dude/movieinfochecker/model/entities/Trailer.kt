@@ -8,11 +8,7 @@ class Trailer(
     @SerializedName("type") val type: String?,
     @SerializedName("year") val year: String?,
     @SerializedName("videoId") val videoId: String?,
-    @SerializedName("videoTitle") val videoTitle: String?,
-    @SerializedName("videoDescription") val videoDescription: String?,
-    @SerializedName("thumbnailUrl") val thumbnailUrl: String?,
-    @SerializedName("uploadDate") val uploadDate: String?,
-    @SerializedName("link") val link: String?,
-    @SerializedName("linkEmbed") val linkEmbed: String?,
+    @SerializedName("videoUrl") val videoUrl: String?,
 ) {
+    constructor(): this("", "", "", "", "", "")
 }

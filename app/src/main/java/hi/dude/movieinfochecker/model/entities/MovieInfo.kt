@@ -27,15 +27,12 @@ class MovieInfo(
     @SerializedName("imDbRating") val imDbRating: String?,
     @SerializedName("tagline") val tagline: String?,
     @SerializedName("similars") val similars: List<SimilarMovie>?,
-    @SerializedName("trailer") val trailer: Trailer?,
 ) {
 
     // empty fields
     constructor() : this(
         "", "", "", "", "", "", "", "", "", "",
         ArrayList(), ArrayList(), ArrayList(), "", "", "", ArrayList(), "", "",
-        "", "", "", "", ArrayList(),
-        Trailer("", "", "", "", "", "", "",
-            "", "", "", "",)
+        "", "", "", "", ArrayList()
     )
 }

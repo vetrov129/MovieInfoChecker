@@ -63,6 +63,7 @@ class ApiConnector {
             }
             var json = ""
             try {
+                Log.i("ApiConnector", "getJson: before get $url")
                 withContext(Dispatchers.IO) { json = URL(url).readText() }
             } catch (e: UnknownHostException) {
                 Log.e("ApiConnector", "getJson: error ${e.message} $url")

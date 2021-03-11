@@ -8,10 +8,6 @@ import hi.dude.movieinfochecker.R
 import hi.dude.movieinfochecker.model.entities.MovieInfo
 import hi.dude.movieinfochecker.viewmodel.MovieListViewModel
 import kotlinx.android.synthetic.main.activity_movie_card.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MovieCardActivity : AppCompatActivity() {
 
@@ -32,11 +28,6 @@ class MovieCardActivity : AppCompatActivity() {
         rvActorsCM.adapter = actorsAdapter
         setContent(viewModel.currentMovie.value!!)
         subscribe()
-    }
-
-    override fun onStop() {
-        viewModel.clearCurrentMovie()
-        super.onStop()
     }
 
     private fun setContent(info: MovieInfo) {

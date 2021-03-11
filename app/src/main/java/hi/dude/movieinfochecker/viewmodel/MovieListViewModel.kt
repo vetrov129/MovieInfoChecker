@@ -4,11 +4,12 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.RecyclerView
 import hi.dude.movieinfochecker.model.MovieRepository
 import hi.dude.movieinfochecker.model.entities.Movie
 import hi.dude.movieinfochecker.model.entities.MovieInfo
 import hi.dude.movieinfochecker.model.entities.ResultItem
+import hi.dude.movieinfochecker.model.entities.WithPoster
 import kotlinx.coroutines.*
 
 class MovieListViewModel private constructor(app: Application) : AndroidViewModel(app), CoroutineScope {
@@ -26,6 +27,8 @@ class MovieListViewModel private constructor(app: Application) : AndroidViewMode
     private val job = SupervisorJob()
     override val coroutineContext = Dispatchers.Main + job
 
+//    private val imageScope: CoroutineScope = CoroutineScope(Dispatchers.IO) + SupervisorJob()
+
     private val repository: MovieRepository = MovieRepository()
 
     private var searchJob: Job? = null
@@ -36,10 +39,18 @@ class MovieListViewModel private constructor(app: Application) : AndroidViewMode
 
     val currentMovie: LiveData<MovieInfo> = repository.currentMovie
 
+    private val handlerShort = CoroutineExceptionHandler { _, exception ->
+        println("EXCEPTION/VIEWMODEL: Caught $exception}")
+    }
+
+    private val handlerLong = CoroutineExceptionHandler { _, exception ->
+        println("EXCEPTION/VIEWMODEL: Caught ${exception.printStackTrace()}}")
+    }
+
     fun pullPopular() {
         try {
             if (popularMovies.value?.size != 0) return
-            launch { repository.pullPopular(coroutineContext) }
+            launch(handlerLong) { repository.pullPopular(coroutineContext) }
         } catch (e: Throwable) {
             e.printStackTrace()
         }
@@ -48,7 +59,7 @@ class MovieListViewModel private constructor(app: Application) : AndroidViewMode
     fun pullTop() {
         try {
             if (topMovies.value?.size != 0) return
-            launch { repository.pullTop(coroutineContext) }
+            launch(handlerLong) { repository.pullTop(coroutineContext) }
         } catch (e: Throwable) {
             e.printStackTrace()
         }
@@ -56,15 +67,15 @@ class MovieListViewModel private constructor(app: Application) : AndroidViewMode
 
     fun search(query: String) {
         try {
-            searchJob = launch { repository.search(query, coroutineContext) }
+            searchJob = launch(handlerLong) { repository.search(query, coroutineContext) }
         } catch (e: Throwable) {
             e.printStackTrace()
         }
     }
 
-    fun pullMovieInfo(id: String){
+    fun pullMovieInfo(id: String) {
         try {
-            launch {
+            launch(handlerLong) {
                 repository.pullMovieInfo(id)
             }
         } catch (e: Throwable) {
@@ -83,5 +94,21 @@ class MovieListViewModel private constructor(app: Application) : AndroidViewMode
     fun cancel() {
         job.cancel()
     }
+
+//    fun pullPosters(start: Int, end: Int, adapter: RecyclerView.Adapter<*>, list: ArrayList<out WithPoster>) {
+//        for (position in start until end) {
+//
+////                val scope = imageScope + SupervisorJob()
+//            launch(handlerLong) {
+//                try {
+//                    list[position].pullPoster()
+//                    withContext(Dispatchers.Main) { adapter.notifyItemChanged(position) }
+//                } catch (e: IndexOutOfBoundsException) {
+//                    Log.e("MoviesAdapter", "pullImages: end of list")
+//                }
+//
+//            }
+//        }
+//    }
 
 }

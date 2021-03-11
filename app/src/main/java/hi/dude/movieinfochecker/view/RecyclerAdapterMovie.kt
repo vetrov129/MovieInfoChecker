@@ -11,19 +11,30 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import hi.dude.movieinfochecker.R
 import hi.dude.movieinfochecker.model.entities.Movie
+import hi.dude.movieinfochecker.model.entities.WithPoster
+import hi.dude.movieinfochecker.viewmodel.MovieListViewModel
 import kotlinx.android.synthetic.main.list_item_movie.view.*
 import kotlinx.coroutines.*
 import kotlin.coroutines.coroutineContext
 
-class RecyclerAdapterMovie(movies: ArrayList<Movie>, private val resources: Resources, val context: Context) :
+class RecyclerAdapterMovie(
+    movies: ArrayList<Movie>,
+    private val resources: Resources,
+    private val context: Context,
+    private val viewModel: MovieListViewModel
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var movies: ArrayList<Movie> = movies
         set(value) {
             field = value
             notifyDataSetChanged()
-            pullImages()
+//            viewModel.pullPosters(0, packSize, this, movies)
+            pullPosters(0, packSize)
         }
+
+    var countOfPacks = 1
+    val packSize = 20
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         ViewHolder(
@@ -71,32 +82,21 @@ class RecyclerAdapterMovie(movies: ArrayList<Movie>, private val resources: Reso
 
     private fun movieClicked(position: Int) {
         val intent = Intent(context, MovieCardActivity::class.java)
+        viewModel.clearCurrentMovie()
         intent.putExtra("id", movies[position].id)
         context.startActivity(intent)
     }
 
-    fun pullImages() {
-        for (position in movies.indices) {
-            try {
-                val job = CoroutineScope(Dispatchers.IO).launch(Dispatchers.IO) {
-                    movies[position].imageBitmap = Picasso.get()
-                        .load(movies[position].imageUrl)
-                        .resizeDimen(R.dimen.poster_width, R.dimen.poster_height)
-                        .error(R.drawable.empty)
-                        .placeholder(R.drawable.empty)
-                        .get()
-                    withContext(Dispatchers.Main) { notifyItemChanged(position) }
-                }
-                job.invokeOnCompletion { t ->
-                    if (t != null) Log.e(
-                        "MovieAdapter",
-                        "pullImages: invokeOnCompletion ",
-                        t
-                    )
-                }
+    fun pullPosters(start: Int, end: Int) {
+        for (position in start until end) {
 
-            } catch (e: Throwable) {
-                Log.e("MoviesAdapter", "pullImages: ", e)
+            CoroutineScope(Dispatchers.Main).launch {
+                try {
+                    movies[position].pullPoster(movies[position].title)
+                    notifyItemChanged(position)
+                } catch (e: IndexOutOfBoundsException) {
+                    Log.e("MoviesAdapter", "pullImages: end of list")
+                }
             }
         }
     }

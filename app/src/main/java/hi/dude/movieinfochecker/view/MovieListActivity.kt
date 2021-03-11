@@ -17,6 +17,7 @@ import hi.dude.movieinfochecker.viewmodel.MovieListViewModel
 import hi.dude.movieinfochecker.R
 import kotlinx.android.synthetic.main.activity_movie_list.*
 import kotlinx.coroutines.Dispatchers
+import java.util.logging.Logger
 
 class MovieListActivity : AppCompatActivity() {
 
@@ -54,8 +55,8 @@ class MovieListActivity : AppCompatActivity() {
     }
 
     private fun setUpPager() {
-        popularPage = Page(viewModel.popularMovies.value!!, searchContainer, resources, this)
-        topPage = Page(viewModel.topMovies.value!!, searchContainer, resources, this)
+        popularPage = Page(viewModel.popularMovies.value!!, searchContainer, resources, this, viewModel)
+        topPage = Page(viewModel.topMovies.value!!, searchContainer, resources, this, viewModel)
 
         vpAdapter = PagerAdapter(arrayListOf(popularPage, topPage))
         vpMovies.adapter = vpAdapter

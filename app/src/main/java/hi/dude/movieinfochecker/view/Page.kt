@@ -3,14 +3,22 @@ package hi.dude.movieinfochecker.view
 import android.content.Context
 import android.content.res.Resources
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hi.dude.movieinfochecker.model.entities.Movie
+import hi.dude.movieinfochecker.viewmodel.MovieListViewModel
 
-class Page(movies: ArrayList<Movie>, val searchPanel: View, resources: Resources, context: Context) {
+class Page(
+    movies: ArrayList<Movie>,
+    val searchPanel: View,
+    resources: Resources,
+    context: Context,
+    val viewModel: MovieListViewModel
+) {
 
     private var readyToHide = true
 
-    private val recAdapter: RecyclerAdapterMovie = RecyclerAdapterMovie(movies, resources, context)
+    private val recAdapter: RecyclerAdapterMovie = RecyclerAdapterMovie(movies, resources, context, viewModel)
 
     var movies: ArrayList<Movie> = movies
         set(value) {
@@ -23,10 +31,10 @@ class Page(movies: ArrayList<Movie>, val searchPanel: View, resources: Resources
     fun bind(recycler: RecyclerView) {
         this.recycler = recycler
         recycler.adapter = recAdapter
-        setListener()
+        setListeners()
     }
 
-    private fun setListener() {
+    private fun setListeners() {
         recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (readyToHide) {
@@ -42,6 +50,21 @@ class Page(movies: ArrayList<Movie>, val searchPanel: View, resources: Resources
                 readyToHide =
                     recyclerView.scrollState == RecyclerView.SCROLL_STATE_IDLE ||
                             recyclerView.scrollState != RecyclerView.SCROLL_STATE_DRAGGING
+            }
+        })
+
+        recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0) { //check for scroll down
+                    val manager = recycler.layoutManager as LinearLayoutManager
+                    if (manager.findLastVisibleItemPosition() >= recAdapter.countOfPacks * recAdapter.packSize - 5) {
+                        recAdapter.pullPosters(
+                            recAdapter.countOfPacks * recAdapter.packSize,
+                            (recAdapter.countOfPacks + 1) * recAdapter.packSize
+                        )
+                        recAdapter.countOfPacks++
+                    }
+                }
             }
         })
     }
