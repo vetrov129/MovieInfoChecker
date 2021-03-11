@@ -145,13 +145,13 @@ class MovieListActivity : AppCompatActivity() {
     }
 
     private fun setUpResultPanel() {
-        rvResultsAdapter = RecyclerAdapterResults(viewModel.searchResult.value ?: ArrayList())
+        rvResultsAdapter = RecyclerAdapterResults(viewModel.searchResult.value ?: ArrayList(), this, viewModel)
         rvResults.adapter = rvResultsAdapter
         viewModel.searchResult.observe(this) {
             try {
                 rvResultsAdapter.results = viewModel.searchResult.value ?: ArrayList()
             } catch (e: Exception) {
-                Log.e("Activity", "subscribeLists: subscribe results lambda", e)
+                Log.e("Activity", "subscribeLists: subscribe results", e)
             }
         }
     }
@@ -179,7 +179,6 @@ class MovieListActivity : AppCompatActivity() {
 
         edSearch.text = "".toEditable()
         edSearch.clearFocus()
-        viewModel.clearResult()
 
         rvResults.visibility = View.GONE
         ibBackSearch.visibility = View.GONE
@@ -190,6 +189,7 @@ class MovieListActivity : AppCompatActivity() {
     }
 
     private fun findClicked() {
+        viewModel.clearResult()
         viewModel.search(edSearch.text.toString())
 
         (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)

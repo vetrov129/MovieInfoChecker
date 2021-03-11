@@ -13,7 +13,7 @@ class MovieCardActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MovieListViewModel
     private lateinit var id: String
-    private val actorsAdapter = RecyclerAdapterActor(ArrayList())
+    private lateinit var actorsAdapter: RecyclerAdapterActor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +25,7 @@ class MovieCardActivity : AppCompatActivity() {
         viewModel = MovieListViewModel.getInstance(application)
         viewModel.pullMovieInfo(id)
 
+        actorsAdapter = RecyclerAdapterActor(ArrayList(), viewModel)
         rvActorsCM.adapter = actorsAdapter
         setContent(viewModel.currentMovie.value!!)
         subscribe()

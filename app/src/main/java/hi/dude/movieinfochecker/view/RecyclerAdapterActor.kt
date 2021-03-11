@@ -1,7 +1,6 @@
 package hi.dude.movieinfochecker.view
 
 import android.util.Log
-import android.view.Display
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,13 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import hi.dude.movieinfochecker.R
 import hi.dude.movieinfochecker.model.entities.Actor
+import hi.dude.movieinfochecker.viewmodel.MovieListViewModel
 import kotlinx.android.synthetic.main.list_item_actors.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class RecyclerAdapterActor(actors: List<Actor>) :
+class RecyclerAdapterActor(actors: List<Actor>, val viewModel: MovieListViewModel) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     var actors = actors
@@ -23,7 +23,7 @@ class RecyclerAdapterActor(actors: List<Actor>) :
             field = value
             Log.i("ActorAdapter", "setter actors: ok")
             notifyDataSetChanged()
-            pullImages()
+            viewModel.pullPosters(0, actors.size, this, actors)
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
@@ -38,8 +38,8 @@ class RecyclerAdapterActor(actors: List<Actor>) :
         view.tvActorName.text = actor.name
         view.tvRole.text = actor.asCharacter
 
-        if (actors[position].bitmap != null)
-            view.ivActorPhoto.setImageBitmap(actors[position].bitmap)
+        if (actors[position].imageBitmap != null)
+            view.ivActorPhoto.setImageBitmap(actors[position].imageBitmap)
         else
             view.ivActorPhoto.setImageResource(R.drawable.empty)
     }
@@ -50,7 +50,7 @@ class RecyclerAdapterActor(actors: List<Actor>) :
         try {
             for (position in actors.indices) {
                 val job = CoroutineScope(Dispatchers.IO).launch(Dispatchers.IO) {
-                    actors[position].bitmap = Picasso.get()
+                    actors[position].imageBitmap = Picasso.get()
                         .load(actors[position].imageUrl)
                         .placeholder(R.drawable.empty)
                         .error(R.drawable.empty)

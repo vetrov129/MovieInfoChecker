@@ -58,9 +58,11 @@ class Page(
                 if (dy > 0) { //check for scroll down
                     val manager = recycler.layoutManager as LinearLayoutManager
                     if (manager.findLastVisibleItemPosition() >= recAdapter.countOfPacks * recAdapter.packSize - 5) {
-                        recAdapter.pullPosters(
+                        viewModel.pullPosters(
                             recAdapter.countOfPacks * recAdapter.packSize,
-                            (recAdapter.countOfPacks + 1) * recAdapter.packSize
+                            (recAdapter.countOfPacks + 1) * recAdapter.packSize,
+                            recAdapter,
+                            movies
                         )
                         recAdapter.countOfPacks++
                     }

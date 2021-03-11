@@ -29,8 +29,7 @@ class RecyclerAdapterMovie(
         set(value) {
             field = value
             notifyDataSetChanged()
-//            viewModel.pullPosters(0, packSize, this, movies)
-            pullPosters(0, packSize)
+            viewModel.pullPosters(0, packSize, this, movies)
         }
 
     var countOfPacks = 1
@@ -85,20 +84,6 @@ class RecyclerAdapterMovie(
         viewModel.clearCurrentMovie()
         intent.putExtra("id", movies[position].id)
         context.startActivity(intent)
-    }
-
-    fun pullPosters(start: Int, end: Int) {
-        for (position in start until end) {
-
-            CoroutineScope(Dispatchers.Main).launch {
-                try {
-                    movies[position].pullPoster(movies[position].title)
-                    notifyItemChanged(position)
-                } catch (e: IndexOutOfBoundsException) {
-                    Log.e("MoviesAdapter", "pullImages: end of list")
-                }
-            }
-        }
     }
 
     override fun getItemCount(): Int = movies.size

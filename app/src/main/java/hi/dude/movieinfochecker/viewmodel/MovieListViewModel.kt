@@ -95,20 +95,18 @@ class MovieListViewModel private constructor(app: Application) : AndroidViewMode
         job.cancel()
     }
 
-//    fun pullPosters(start: Int, end: Int, adapter: RecyclerView.Adapter<*>, list: ArrayList<out WithPoster>) {
-//        for (position in start until end) {
-//
-////                val scope = imageScope + SupervisorJob()
-//            launch(handlerLong) {
-//                try {
-//                    list[position].pullPoster()
-//                    withContext(Dispatchers.Main) { adapter.notifyItemChanged(position) }
-//                } catch (e: IndexOutOfBoundsException) {
-//                    Log.e("MoviesAdapter", "pullImages: end of list")
-//                }
-//
-//            }
-//        }
-//    }
+    fun pullPosters(start: Int, end: Int, adapter: RecyclerView.Adapter<*>, list: List<WithPoster>) {
+        for (position in start until end) {
+            launch(handlerLong) {
+                try {
+                    list[position].pullPoster()
+                    adapter.notifyItemChanged(position)
+                } catch (e: IndexOutOfBoundsException) {
+                    Log.e("ViewModel", "pullImages: end of list")
+                }
+
+            }
+        }
+    }
 
 }
