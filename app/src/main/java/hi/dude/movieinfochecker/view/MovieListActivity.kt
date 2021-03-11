@@ -8,7 +8,6 @@ import android.os.PersistableBundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
@@ -16,8 +15,6 @@ import androidx.viewpager2.widget.ViewPager2
 import hi.dude.movieinfochecker.viewmodel.MovieListViewModel
 import hi.dude.movieinfochecker.R
 import kotlinx.android.synthetic.main.activity_movie_list.*
-import kotlinx.coroutines.Dispatchers
-import java.util.logging.Logger
 
 class MovieListActivity : AppCompatActivity() {
 
@@ -48,6 +45,11 @@ class MovieListActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         viewModel.cancel()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.resume()
     }
 
     override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {

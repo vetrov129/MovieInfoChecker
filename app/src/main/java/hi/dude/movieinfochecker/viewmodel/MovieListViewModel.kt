@@ -24,8 +24,8 @@ class MovieListViewModel private constructor(app: Application) : AndroidViewMode
         }
     }
 
-    private val job = SupervisorJob()
-    override val coroutineContext = Dispatchers.Main + job
+    private var job = SupervisorJob()
+    override var coroutineContext = Dispatchers.Main + job
 
 //    private val imageScope: CoroutineScope = CoroutineScope(Dispatchers.IO) + SupervisorJob()
 
@@ -93,6 +93,13 @@ class MovieListViewModel private constructor(app: Application) : AndroidViewMode
 
     fun cancel() {
         job.cancel()
+    }
+
+    fun resume() {
+        if (job.isCancelled) {
+            job = SupervisorJob()
+            coroutineContext = Dispatchers.Main + job
+        }
     }
 
     fun pullPosters(start: Int, end: Int, adapter: RecyclerView.Adapter<*>, list: List<WithPoster>) {
