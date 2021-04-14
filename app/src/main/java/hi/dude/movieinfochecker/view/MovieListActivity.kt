@@ -15,7 +15,6 @@ import androidx.viewpager2.widget.ViewPager2
 import hi.dude.movieinfochecker.viewmodel.MovieListViewModel
 import hi.dude.movieinfochecker.R
 import kotlinx.android.synthetic.main.activity_movie_list.*
-
 class MovieListActivity : AppCompatActivity() {
 
     private lateinit var popularPage: Page
@@ -35,6 +34,7 @@ class MovieListActivity : AppCompatActivity() {
         currentTab = popularMenuButton
 
         viewModel = MovieListViewModel.getInstance(application)
+
 
         setUpTabs()
         setUpPager()
