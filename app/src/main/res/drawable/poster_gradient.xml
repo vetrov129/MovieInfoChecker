@@ -4,5 +4,5 @@
     <gradient
             android:angle="90"
             android:endColor="@color/colorTransparent"
-            android:startColor="@color/colorBGCard"/>
+            android:startColor="@color/colorAutoDark"/>
 </shape>

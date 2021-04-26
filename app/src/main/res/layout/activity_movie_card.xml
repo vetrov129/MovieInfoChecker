@@ -5,168 +5,151 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.MovieCardActivity"
-        android:background="@color/colorBGCard">
+        tools:context=".view.moviecard.MovieCardActivity"
+        android:background="@color/colorAutoDark"
+        android:id="@+id/cardContainer">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
         <ImageView
-                android:id="@+id/ivPosterCM"
+                android:id="@+id/ivCardPoster"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_height="@dimen/card_poster_height"
                 app:layout_constraintStart_toStartOf="parent"
-                android:src="@color/colorAccent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                android:src="@color/colorBlack"
                 android:scaleType="centerCrop"/>
 
+        <ImageView
+                android:id="@+id/ivStarCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:padding="10dp"
+                android:layout_margin="16dp"
+
+                android:src="@drawable/ic_empty_star_white"
+                android:background="@drawable/star_background"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/gradientContainer"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                app:layout_constraintBottom_toBottomOf="@+id/ivPosterCM"
+                android:layout_height="@dimen/card_poster_height"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/ivCardPoster"
                 android:background="@drawable/poster_gradient">
 
             <TextView
-                    android:id="@+id/tvTitleCM"
+                    android:id="@+id/tvTitleCard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/test_title"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/tvDateCard"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="254dp"
+
+                    android:text=""
                     android:textColor="@color/colorWhite"
-                    android:fontFamily="@font/montserrat"
                     android:textSize="28sp"
-                    android:textFontWeight="700"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="58dp"/>
+                    android:fontFamily="@font/montserrat"
+                    android:textStyle="bold"/>
 
             <TextView
-                    android:id="@+id/tvYearCM"
+                    android:id="@+id/tvDateCard"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/test_year"
-                    app:layout_constraintTop_toBottomOf="@id/tvTitleCM"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/colorWhite"
-                    android:fontFamily="@font/montserrat"
-                    android:textSize="20sp"
-                    android:textFontWeight="600"/>
-
-            <TextView
-                    android:id="@+id/tvDurationCM"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/test_duration"
-                    android:textColor="@color/colorWhite"
-                    android:fontFamily="@font/montserrat"
-                    android:textSize="18sp"
-                    android:textFontWeight="600"
-                    app:layout_constraintStart_toEndOf="@+id/tvYearCM"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvYearCM"
-                    app:layout_constraintTop_toTopOf="@+id/tvYearCM"
-                    android:layout_marginStart="14dp"/>
-
-            <HorizontalScrollView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@+id/tvDurationCM"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvYearCM"
-                    app:layout_constraintTop_toTopOf="@+id/tvYearCM"
-                    android:orientation="horizontal"
-                    android:nestedScrollingEnabled="true"
-                    android:layout_marginEnd="8dp"
-                    android:scrollbars="none">
-
-            <TextView
-                    android:id="@+id/tvDirectorsCM"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:text="@string/test_directors"
-                    android:textColor="@color/colorWhite"
-                    android:fontFamily="@font/montserrat"
-                    android:textSize="18sp"
-                    android:textFontWeight="600"
-                    android:layout_marginStart="14dp"/>
-            </HorizontalScrollView>
-
-            <HorizontalScrollView
-                    android:id="@+id/svStars"
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvYearCM"
-                    android:orientation="horizontal"
-                    android:nestedScrollingEnabled="true"
-                    android:layout_marginEnd="8dp"
-                    android:scrollbars="none">
-                <TextView
-                        android:id="@+id/tvStarsCM"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:maxLines="1"
-                        android:text="@string/test_stars"
-                        android:textColor="@color/colorWhite"
-                        android:fontFamily="@font/montserrat"
-                        android:textSize="18sp"
-                        android:textFontWeight="500"
-                        android:layout_marginHorizontal="8dp"/>
-            </HorizontalScrollView>
+                    app:layout_constraintBottom_toTopOf="@id/tvDurationCard"
+                    android:layout_marginStart="16dp"
 
-            <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/svStars"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:orientation="horizontal"
-                    android:nestedScrollingEnabled="true"
-                    android:layout_marginEnd="8dp"
-                    android:scrollbars="none">
-            <TextView
-                    android:id="@+id/tvGenresCM"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:text="@string/test_genres"
-                    android:textColor="@color/colorWhite"
+                    android:text=""
                     android:fontFamily="@font/montserrat"
                     android:textSize="18sp"
-                    android:textFontWeight="500"
-                    android:layout_marginHorizontal="8dp"/>
-            </HorizontalScrollView>
+                    android:textColor="@color/colorWhite"/>
+
+            <TextView
+                    android:id="@+id/tvCountriesCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@id/tvDateCard"
+                    app:layout_constraintTop_toTopOf="@id/tvDateCard"
+                    app:layout_constraintBottom_toBottomOf="@id/tvDateCard"
+                    android:layout_marginStart="16dp"
+
+                    android:text=""
+                    android:fontFamily="@font/montserrat"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorWhite"/>
+
+            <TextView
+                    android:id="@+id/tvDurationCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/gradientContainer"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="4dp"
+
+                    android:text=""
+                    android:fontFamily="@font/montserrat"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorWhite"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
         <TextView
-                android:id="@+id/tvPlotCM"
-                android:layout_width="wrap_content"
+                android:id="@+id/tvPlotCard"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/test_plot"
                 app:layout_constraintTop_toBottomOf="@id/gradientContainer"
-                app:layout_constraintStart_toStartOf="parent"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"
+
+                android:text=""
                 android:textColor="@color/colorWhite"
                 android:fontFamily="@font/montserrat"
-                android:textFontWeight="500"
-                android:padding="8dp"
                 android:textSize="14sp"/>
 
         <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvActorsCM"
+                android:id="@+id/rvActorsCard"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                app:layout_constraintTop_toBottomOf="@+id/tvPlotCM"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintTop_toBottomOf="@id/tvPlotCard"
                 android:orientation="horizontal"
-                android:padding="8dp"/>
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+        <TextView
+                android:id="@+id/tvSimilarCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rvActorsCard"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+
+                android:text=""
+                android:textColor="@color/colorWhite"
+                android:textSize="22sp"
+                android:fontFamily="@font/montserrat"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSimilarCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvSimilarCard"
+                android:paddingHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.core.widget.NestedScrollView>

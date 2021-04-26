@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".view.main.fragments.search.SearchFragment"
+        android:background="@color/colorDoubleLightGrey">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="80dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/topContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@color/colorPrimary"
+                android:paddingBottom="16dp">
+
+            <RadioGroup
+                    android:id="@+id/rgSearchCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:padding="16dp"
+                    android:orientation="horizontal">
+
+                <RadioButton
+                        android:id="@+id/rbMovie"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/movie"
+                        android:textColor="@color/colorWhite"
+                        android:buttonTint="@drawable/radio_button_selector"
+                        android:checked="true"/>
+                <RadioButton
+                        android:id="@+id/rbSeries"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorWhite"
+                        android:buttonTint="@drawable/radio_button_selector"
+                        android:layout_weight="1"
+                        android:text="@string/series"/>
+                <RadioButton
+                        android:id="@+id/rbPerson"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorWhite"
+                        android:buttonTint="@drawable/radio_button_selector"
+                        android:layout_weight="1"
+                        android:text="@string/person"/>
+                <RadioButton
+                        android:id="@+id/rbAll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorWhite"
+                        android:buttonTint="@drawable/radio_button_selector"
+                        android:layout_weight="1"
+                        android:text="@string/all"/>
+            </RadioGroup>
+
+            <LinearLayout
+                    android:id="@+id/searchContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:orientation="horizontal"
+                    android:background="@drawable/search_background"
+                    app:layout_constraintTop_toBottomOf="@id/rgSearchCategory">
+
+                <EditText
+                        android:id="@+id/etSearch"
+                        android:layout_width="0dp"
+                        android:layout_height="42dp"
+                        android:layout_weight="85"
+                        android:paddingStart="16dp"
+                        android:singleLine="true"
+                        android:background="@color/colorTransparent"
+                        android:textColor="@color/colorBlack"
+                        android:fontFamily="@font/montserrat"
+                        android:textSize="18sp"/>
+
+                <ImageButton
+                        android:id="@+id/ibRunSearch"
+                        android:layout_width="0dp"
+                        android:layout_height="38dp"
+                        android:layout_weight="15"
+                        android:padding="2dp"
+                        android:src="@drawable/ic_search_small"
+                        android:background="@color/colorTransparent"/>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvHints"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                app:layout_constraintTop_toBottomOf="@id/topContainer"
+                android:paddingHorizontal="32dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"/>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvResult"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toBottomOf="@id/rvHints"
+
+                android:paddingHorizontal="16dp"
+                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                android:orientation="vertical"/>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

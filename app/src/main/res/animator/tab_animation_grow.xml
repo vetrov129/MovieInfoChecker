@@ -17,7 +17,7 @@
     <objectAnimator
             android:duration="400"
             android:propertyName="textColor"
-            android:valueFrom="@color/colorTabNotSelected"
+            android:valueFrom="@color/colorNotSelected"
             android:valueTo="@color/colorWhite"
             android:interpolator="@android:anim/decelerate_interpolator"/>
 

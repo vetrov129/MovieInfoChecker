@@ -1,22 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#DEEEFF</color>
-    <color name="colorPrimaryDark">#334885</color>
-    <color name="colorAccent">#FFFBEE</color>
-    <color name="colorBG">#E3E2DC</color>
+
+    <color name="colorPrimary">#556797</color>
+    <color name="colorPrimaryDark">#556797</color>
+    <color name="colorAccent">#E0A672</color>
+
+    <color name="colorBG">#BDC6E1</color>
+    <color name="colorStarBG">#341C2F62</color>
+    <color name="colorNotSelected">#A3B3CD</color>
+    <color name="colorSelected">#F4F4DD</color>
+    <color name="colorNavRipple">#08E8E8E8</color>
 
     <color name="colorWhite">#fff</color>
-    <color name="colorTabNotSelected">#A3B3CD</color>
-
     <color name="colorBlack">#1A1A1A</color>
     <color name="colorGreen">#39B36A</color>
     <color name="colorRed">#C33939</color>
     <color name="colorGray">#BABABA</color>
-
     <color name="colorGrayRating">#7A7A7A</color>
-
-    <color name="colorBGCard">#334885</color>
-    <color name="colorBGActor">#43599C</color>
-
     <color name="colorTransparent">#00000000</color>
+
+    <color name="colorAuto">#556797</color>
+    <color name="colorAutoGray">#4C5671</color>
+    <color name="colorAutoDark">#1C2F62</color>
+    <color name="colorAutoLight">#9AA7CB</color>
+
+    <color name="colorAutoDoubleDark">#091840</color>
+    <color name="colorDoubleLightGrey">#F3F3F3</color>
+
+    <color name="colorAutoAccent">#E0BD72</color>
+    <color name="colorAutoAccentGray">#A8946A</color>
+    <color name="colorAutoAccentDark">#926F25</color>
+    <color name="colorAutoAccentLight">#F0DBAF</color>
+
+    <color name="colorAutoBAccent">#E0A672</color>
+    <color name="colorAutoBAccentGray">#A8876A</color>
+    <color name="colorAutoBAccentDark">#925825</color>
+    <color name="colorAutoBAccentLight">#F0CDAF</color>
+
 </resources>

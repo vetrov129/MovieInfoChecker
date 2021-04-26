@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MovieInfoChecker</string>
     <string name="find">find</string>
-    <string name="search">" Search"</string>
+    <string name="search">Search</string>
     <string name="popular">Popular</string>
     <string name="top_250">Top 250</string>
     <string name="test_title">Title of movie</string>
@@ -22,4 +22,15 @@
     <string name="test_actor_name">Leonardo DiCaprio</string>
     <string name="test_role">Cobb</string>
     <string name="trailer">Trailer</string>
+    <string name="most_popular">Most popular</string>
+    <string name="favorites">Favorites</string>
+    <string name="fragment_placeholder">Этот фрагмент не реализован</string>
+    <string name="test_date">14 nov 2021</string>
+    <string name="us_uk">US, UK</string>
+    <string name="similar">Similar</string>
+    <string name="movie">Movie</string>
+    <string name="series">Series</string>
+    <string name="person">Person</string>
+    <string name="all">All</string>
+    <string name="hint">hint</string>
 </resources>

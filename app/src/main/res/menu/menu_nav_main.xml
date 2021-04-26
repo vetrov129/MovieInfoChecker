@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:id="@+id/nav_my_list"
+            android:icon="@drawable/nav_house_selector"
+            android:contentDescription="@string/most_popular"
+            android:title="@string/most_popular" />
+
+    <item
+            android:id="@+id/nav_search"
+            android:icon="@drawable/nav_search_selector"
+            android:contentDescription="@string/search"
+            android:title="@string/search"/>
+
+    <item
+            android:id="@+id/nav_favor"
+            android:icon="@drawable/nav_star_selector"
+            android:contentDescription="@string/favorites"
+            android:title="@string/favorites" />
+
+</menu>

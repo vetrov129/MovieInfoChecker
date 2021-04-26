@@ -4,4 +4,5 @@
     <dimen name="poster_height">176dp</dimen>
     <dimen name="actor_photo_width">120dp</dimen>
     <dimen name="actor_photo_height">160dp</dimen>
+    <dimen name="card_poster_height">520dp</dimen>
 </resources>

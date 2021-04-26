@@ -2,15 +2,13 @@ package hi.dude.movieinfochecker.model.entities
 
 import android.graphics.Bitmap
 import com.google.gson.annotations.SerializedName
-import kotlinx.coroutines.withContext
-import kotlin.coroutines.CoroutineContext
 
-class ResultItem(
-    @SerializedName("id") val id: String?,
-    @SerializedName("resultType") val resultType: String?,
+data class ResultItem(
+    @SerializedName("id") val id: String,
+    @SerializedName("resultType") val type: String?,
     @SerializedName("image") override val imageUrl: String?,
     @SerializedName("title") val title: String?,
     @SerializedName("description") val description: String?,
-): WithPoster {
-    override var imageBitmap: Bitmap? = null
+): HasImage {
+    override var bitmap: Bitmap? = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
 }
