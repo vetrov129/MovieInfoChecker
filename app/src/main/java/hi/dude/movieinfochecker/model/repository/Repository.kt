@@ -51,7 +51,7 @@ class Repository @Inject constructor(private var api: Lazy<ImdbApi>) {
     lateinit var personInfo: MutableLiveData<Person>
 
     suspend fun pullMoviesList() = withContext(Dispatchers.IO) {
-        fillFavor() // TODO: 22.04.2021 вызов этого метода здесь нелогичен, нужно вынести
+        fillFavor()
 
         api.get().getPopular().enqueue(object : Callback<MostPopularResponse> {
             override fun onResponse(call: Call<MostPopularResponse>, response: Response<MostPopularResponse>) {
